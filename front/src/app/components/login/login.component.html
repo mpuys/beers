@@ -1,0 +1,26 @@
+<div class="container-fluid">
+	<!-- <h1>{{ page_title }}</h1>
+	<hr> -->
+
+	<div class="row mt-5">
+		<form class="col-md-4" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input type="text" name="username" #username="ngModel" [(ngModel)]="user.username" class="form-control" required>
+				<small *ngIf="!username.valid && username.touched" class="invalid-feedback d-block">Username not valid</small>
+			</div>
+
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" name="password" #password="ngModel" [(ngModel)]="user.password" class="form-control" required>
+				<small *ngIf="!password.valid && password.touched" class="invalid-feedback d-block">Password not valid</small>
+			</div>
+
+			<input class="btn btn-success float-right" type="submit" value="Log in" [disabled]="loginForm.invalid">
+		</form>
+
+		<div class="col-md-8">
+			<img src="/assets/img/beer-tour.png" style="width:100%">
+		</div>
+	</div>
+</div>

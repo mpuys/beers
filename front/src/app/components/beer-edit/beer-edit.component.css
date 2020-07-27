@@ -1,0 +1,43 @@
+.input-file {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.file-label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: black;
+    display: inline-block;
+	background: #f8f8f8;
+	border: 2px groove #aaa;
+	border-radius: 10px;
+	height: 170px;
+}
+
+.input-file:focus + .file-label,
+.file-label:hover {
+    background: #eee;
+    cursor: pointer;
+}
+
+.input-file:focus + .file-label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+.modal-backdrop {
+  	z-index: -1;
+}
+#new-brew-modal-content {
+	max-width: 75vw !important;
+}
+.pointer {
+	cursor: pointer;
+}
+
+pre {
+	background-color: #eee;
+}

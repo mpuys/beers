@@ -1,0 +1,233 @@
+<style type="text/css">
+	.input-file {
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}
+
+	.file-label {
+	    font-size: 1.25em;
+	    font-weight: 700;
+	    color: black;
+	    display: inline-block;
+		background: #f8f8f8;
+		border: 2px groove #aaa;
+		border-radius: 10px;
+		height: 170px;
+	}
+
+	.input-file:focus + .file-label,
+	.file-label:hover {
+	    background: #eee;
+	    cursor: pointer;
+	}
+
+	.input-file:focus + .file-label {
+		outline: 1px dotted #000;
+		outline: -webkit-focus-ring-color auto 5px;
+	}
+	.modal-backdrop {
+	  	z-index: -1;
+	}
+	#new-brew-modal-content {
+		max-width: 75vw !important;
+	}
+</style>
+<div class="col-md-12 mt-3">
+	<h1>{{ page_title }}</h1>
+	<hr>
+	<form class="col-md-12 mb-5" #beerNew="ngForm" (ngSubmit)="onSubmit(beerNew)">
+		<div class="row">
+			<div class="col-6">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" name="name" #name="ngModel" [(ngModel)]="beer.name" class="form-control" required>
+						<small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">Name not valid</small>
+					</div>
+
+					<div class="form-group">
+						<label for="type">Type</label>
+						<select name="type" #type="ngModel" [(ngModel)]="beer.type" class="form-control" required>
+							<option value="" selected hidden>Select type...</option>
+						    <option *ngFor="let type of types" [ngValue]="type">
+						    	{{type.name | titlecase}}
+						    </option>
+						    <option [ngValue]="'other'">Other...</option>
+						</select>
+						<small *ngIf="(!type.valid || beer.type == 'other') && type.touched" class="invalid-feedback d-block">Type not valid</small>
+					</div>
+
+					<div class="form-group">
+						<label for="brewery">Brewery</label>
+						<select name="brewery" #brewery="ngModel" [(ngModel)]="beer.brewery.brewery1" class="form-control" required>
+							<option value="" selected hidden>Select brewery...</option>
+						    <option *ngFor="let brewery of breweries" [ngValue]="brewery">
+						    	{{brewery.name | titlecase}}
+						    </option>
+						    <option [ngValue]="'other'">Other...</option>
+						</select>
+						<small *ngIf="(!brewery.valid || beer.brewery.brewery1 == 'other') && brewery.touched && collab" class="invalid-feedback d-block">Brewery not valid</small>
+
+
+						<label class="mt-3" *ngIf="collab" for="brewery">Brewery</label>
+						<select *ngIf="collab" name="brewery" #brewery="ngModel" [(ngModel)]="beer.brewery.brewery2" class="form-control" required>
+							<option value="a" selected hidden>Select brewery...</option>
+						    <option *ngFor="let brewery of breweries" [ngValue]="brewery">
+						    	{{brewery.name | titlecase}}
+						    </option>
+						    <option [ngValue]="'other'">Other...</option>
+						</select>
+						<small *ngIf="(!brewery.valid || beer.brewery.brewery2 == 'other') && brewery.touched" class="invalid-feedback d-block">Brewery not valid</small>
+						<span *ngIf="!collab" class="btn btn-secondary btn-sm mt-2" (click)="collab = true">Collaboration? Add another brewery</span>
+					</div>
+
+					<div class="form-group">
+						<label for="abv">Alcohol content</label>
+						<input type="text" name="abv" #abv="ngModel" [(ngModel)]="beer.abv" class="form-control" required>
+						<small *ngIf="!abv.valid && abv.touched" class="invalid-feedback d-block">Alcohol content not valid</small>
+					</div>
+
+					<div class="form-group">
+						<label for="volume">Volume</label>
+						<input type="text" name="volume" #volume="ngModel" [(ngModel)]="beer.volume" class="form-control" required>
+						<small *ngIf="!volume.valid && volume.touched" class="invalid-feedback d-block">Volume not valid</small>
+					</div>
+			</div>
+
+			<div class="col-6">
+				<div class="form-group">
+					<label for="description">Description</label>
+					<textarea name="description" #description="ngModel" [(ngModel)]="beer.description" class="form-control"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="misc">Miscellanea</label>
+					<textarea name="misc" #misc="ngModel" [(ngModel)]="beer.misc" class="form-control"></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="img" class="file-label d-flex justify-content-center align-items-center">
+						<img *ngIf="!beer_img" src="assets/img/icons/upload.png" height="30" class="mr-3">
+						<span *ngIf="!beer_img" class="input-file-text d-block">Upload an image...</span>
+						<span *ngIf="beer_img" class="input-file-text d-block text-center">
+							{{ beer_img.name }}
+						</span>
+					</label>
+					<input type="file" id="img" name="img" #img class="input-file" (change)="onFileSelected($event.target.files[0], 'beer')" required>
+					<small *ngIf="beer.img == '' && img.touched" class="invalid-feedback d-block">You need to upload an image</small>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="row">
+			<div class="offset-9 col-3">
+				<input class="btn btn-success float-right" type="submit" value="Submit" [disabled]="beerNew.invalid || !beer_img">
+			</div>
+		</div>
+	</form>
+
+</div>
+
+<!------------------------------ MODALS ---------------------------------->
+<!------------------------------ MODALS ---------------------------------->
+<!------------------------------ MODALS ---------------------------------->
+<!------------------------------ MODALS ---------------------------------->
+<!------------------------------ MODALS ---------------------------------->
+
+
+
+<!-- NEW TYPE MODAL -->
+<div id="new-type-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" role="document" data-target="#new-type-modal">
+	<div class="modal-content">
+	  	<div class="modal-header">
+	    	<h5 class="modal-title">New type</h5>
+	    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	      		<span aria-hidden="true">&times;</span>
+	    	</button>
+	  	</div>
+	  	<div class="modal-body">
+			<div class="form-group">
+				<label for="new-type">Enter the new type name</label>
+				<input type="text" name="new-type" class="form-control" #type="ngModel" [(ngModel)]="newType.name">
+			</div>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSaveNewType()">Save changes</button>
+	    	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	  	</div>
+	</div>
+	</div>
+</div>
+
+
+
+<!-- NEW BREWERY MODAL -->
+<div id="new-brewery-modal" class="modal fade in hide" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document" data-target="#new-brewery-modal">
+	<div class="modal-content new-brew-modal-content">
+	  	<div class="modal-header">
+	    	<h5 class="modal-title">New brewery</h5>
+	    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	      		<span aria-hidden="true">&times;</span>
+	    	</button>
+	  	</div>
+	  	<div class="modal-body">
+	  		<div class="col-12">
+	  			<div class="row">
+	  				<div class="col-6">
+						<div class="form-group">
+							<label for="new-type">Name</label>
+							<input type="text" name="name" class="form-control" #name="ngModel" [(ngModel)]="newBrewery.name">
+						</div>
+
+						<div class="form-group">
+							<label for="url">Url</label>
+							<input type="text" name="url" class="form-control" #url="ngModel" [(ngModel)]="newBrewery.url">
+						</div>
+
+						<div class="form-group">
+							<label for="address">Address</label>
+							<input type="text" name="address" class="form-control" #address="ngModel" [(ngModel)]="newBrewery.address">
+						</div>
+					</div>
+
+	  				<div class="col-6">
+						<div class="form-group">
+							<label for="country">Country</label>
+							<select name="country" #country="ngModel" [(ngModel)]="newBrewery.country" class="form-control" [disabled]="newBrewery.country === null" required>
+								<option value="" selected hidden>Select country...</option>
+							    <option *ngFor="let country of countries" [ngValue]="country">
+							    	{{country.name | titlecase}}
+							    </option>
+							    <option [ngValue]="null">Other...</option>
+							</select>
+							<small *ngIf="(!country.valid || newBrewery.country == 'other') && country.touched" class="invalid-feedback d-block">Country not valid</small>
+							<input *ngIf="newBrewery.country === null" type="text" name="name" #name="ngModel" [(ngModel)]="newCountry.name" class="form-control">
+						</div>
+
+						<div class="form-group">
+							<label for="logo" class="file-label d-flex justify-content-center align-items-center">
+								<img *ngIf="!newBrewery.logo" src="assets/img/upload.png" height="30" class="mr-3">
+								<span *ngIf="!newBrewery.logo" class="input-file-text d-block">Upload an image...</span>
+								<span *ngIf="newBrew_logo" class="input-file-text d-block text-center">
+									{{ newBrewery.logo.name }}
+								</span>
+							</label>
+							<input type="file" id="logo" name="logo" #logo class="input-file" (change)="(newBrewery.logo = logo.files[0]); onFileSelected($event.target.files[0], 'brewery')">
+						</div>
+					</div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSaveNewBrewery()">Save changes</button>
+	    	<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="newBrewery = ''">Close</button>
+	  	</div>
+	</div>
+	</div>
+</div>

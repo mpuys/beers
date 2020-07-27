@@ -1,0 +1,9 @@
+pre	{
+	background-color: #efefef;
+}
+.underline {
+	text-decoration: underline;
+}
+.pointer {
+	cursor: pointer;
+}

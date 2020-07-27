@@ -1,0 +1,133 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+# User Routes #
+# user:
+#   path: /user
+#   controller: App\Controller\UserController:index
+
+register:
+  path: /register
+  controller: App\Controller\UserController:create
+  methods: [POST]
+
+login:
+  path: /login
+  controller: App\Controller\UserController:login
+  methods: [POST]
+
+# Beer Routes #
+# beer:
+#   path: /beer
+#   controller: App\Controller\BeerController:index
+
+new_beer:
+  path: /beer/new
+  controller: App\Controller\BeerController:newBeer
+  methods: [POST]
+
+beer_list:
+  path: /beer/list
+  controller: App\Controller\BeerController:list
+  methods: [GET]
+
+beer_list_filters:
+  path: /beer/list
+  controller: App\Controller\BeerController:list
+  methods: [POST]
+
+beer_detail:
+  path: /beer/detail/{id}
+  controller: App\Controller\BeerController:beer
+  methods: [GET]
+
+beer_edit:
+  path: /beer/edit/{id}
+  controller: App\Controller\BeerController:newBeer
+  methods: [PUT]
+
+beer_delete:
+  path: /beer/delete/{id}
+  controller: App\Controller\BeerController:delete
+  methods: [DELETE]
+
+# Type Routes #
+# type:
+#   path: /type
+#   controller: App\Controller\TypeController:index
+
+new_type:
+  path: /type/new
+  controller: App\Controller\TypeController:newType
+  methods: [POST]
+
+type_list:
+  path: /type/list
+  controller: App\Controller\TypeController:list
+  methods: [GET]
+
+type_edit:
+  path: /type/edit/{id}
+  controller: App\Controller\TypeController:newType
+  methods: [PUT]
+
+type_delete:
+  path: /type/delete/{id}
+  controller: App\Controller\TypeController:delete
+  methods: [DELETE]
+
+# Brewery Routes #
+# brewery:
+#   path: /brewery
+#   controller: App\Controller\BreweryController:index
+
+new_brewery:
+  path: /brewery/new
+  controller: App\Controller\BreweryController:newBrewery
+  methods: [POST]
+
+brewery_list:
+  path: /brewery/list
+  controller: App\Controller\BreweryController:list
+  methods: [GET]
+
+brewery_edit:
+  path: /brewery/edit/{id}
+  controller: App\Controller\BreweryController:newBrewery
+  methods: [PUT]
+
+brewery_detail:
+  path: /brewery/detail/{id}
+  controller: App\Controller\BreweryController:brewery
+  methods: [GET]
+
+brewery_delete:
+  path: /brewery/delete/{id}
+  controller: App\Controller\BreweryController:delete
+  methods: [DELETE]
+
+# Country Routes #
+# country:
+#   path: /country
+#   controller: App\Controller\CountryController:index
+
+new_country:
+  path: /country/new
+  controller: App\Controller\CountryController:newCountry
+  methods: [POST]
+
+country_edit:
+  path: /country/edit/{id}
+  controller: App\Controller\CountryController:newCountry
+  methods: [PUT]
+
+country_list:
+  path: /country/list
+  controller: App\Controller\CountryController:list
+  methods: [GET]
+
+country_delete:
+  path: /country/delete/{id}
+  controller: App\Controller\CountryController:delete
+  methods: [DELETE]
